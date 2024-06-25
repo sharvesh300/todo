@@ -11,7 +11,13 @@ class NotePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){},child: Icon(Icons.add),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => EditPage()));
+        },
+        child: Icon(Icons.add),
+      ),
       body: Container(
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -30,10 +36,17 @@ class NotePage extends StatelessWidget {
                       crossAxisCount: 2),
                   children: snapshot.data!.docs
                       .map((note) => NoteCard(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => EditPage()));
-                        },
-                          content: note["content"], title: note["title"]))
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditPage(
+                                          content: note["content"],
+                                          heading: note["title"],
+                                        )));
+                          },
+                          content: note["content"],
+                          title: note["title"]))
                       .toList(),
                 );
               }
