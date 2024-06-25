@@ -1,22 +1,22 @@
-part of 'auth_bloc.dart';
+part of 'auth_cubit.dart';
 
-abstract class AuthState {}
+abstract class AuthState extends Equatable {
+  AuthState();
 
-final class AuthInitial extends AuthState {}
-
-final class AuthLoading extends AuthState {
-  final bool? isLoading;
-  AuthLoading({this.isLoading});
+  @override
+  List<Object> get props => [];
 }
 
-final class AuthSuccess extends AuthState {
+class AuthInitial extends AuthState {}
+
+class AuthLoading extends AuthState {}
+
+class AuthError extends AuthState {
+  final String? message;
+  AuthError({this.message});
+}
+
+class AuthSuccess extends AuthState {
   final UserModel? user;
-
-  AuthSuccess({required this.user});
-}
-
-final class AuthError extends AuthState {
-  final String? errorMessage;
-
-  AuthError({this.errorMessage});
+  AuthSuccess({this.user});
 }
