@@ -2,11 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note/buisness_logic/note_bloc/bloc/note_bloc.dart';
+import 'package:note/data/models/noteModel.dart';
 import 'package:note/presentation/home/edit_page.dart';
 import 'package:note/presentation/widgets/note_card.dart';
 
 class NotePage extends StatelessWidget {
-  const NotePage({super.key});
+  NotePage({super.key});
+  String id = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +18,12 @@ class NotePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => EditPage()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BlocProvider(
+                        create: (context) => NoteBloc(),
+                        child: EditPage(),
+                      )));
         },
         child: Icon(Icons.add),
       ),
@@ -37,12 +46,16 @@ class NotePage extends StatelessWidget {
                   children: snapshot.data!.docs
                       .map((note) => NoteCard(
                           onTap: () {
+                            final model = NoteModel.fromJson(note.data());
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EditPage(
-                                          content: note["content"],
-                                          heading: note["title"],
+                                    builder: (context) => BlocProvider(
+                                          create: (context) => NoteBloc(),
+                                          child: EditPage(
+                                            path: note.id,
+                                            model: model,
+                                          ),
                                         )));
                           },
                           content: note["content"],
@@ -50,9 +63,12 @@ class NotePage extends StatelessWidget {
                       .toList(),
                 );
               }
-              return Center(
-                child: Text("No note available"),
-              );
+              if (snapshot.hasData == false) {
+                return Center(
+                  child: Text("No note available"),
+                );
+              }
+              return Text("hi");
             }),
       ),
     );

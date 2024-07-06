@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:note/data/models/noteModel.dart';
 import 'package:note/data/repository/signIn/signRep.dart';
 import 'package:note/presentation/home/note_page.dart';
+import 'package:note/presentation/home/profile.dart';
 import 'package:note/presentation/widgets/note_card.dart';
 
 class Homepage extends StatefulWidget {
@@ -23,9 +24,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   List<Widget> options = [
-    const NotePage(),
-    const Text("Task"),
-    const Text("Profile")
+     NotePage(),
+     ProfilePage()
   ];
 
   @override
@@ -46,11 +46,6 @@ class _HomepageState extends State<Homepage> {
                   Icons.note_alt,
                 ),
                 label: "Notes"),
-            const BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.check_box,
-                ),
-                label: "Todo"),
             const BottomNavigationBarItem(
                 icon: const Icon(
                   Icons.person_2_rounded,

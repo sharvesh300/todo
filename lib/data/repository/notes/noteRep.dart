@@ -13,4 +13,8 @@ class NoteRep {
     Map<String, dynamic> data = model.toJson();
     await firestore.doc(path).update(data);
   }
+
+  Future<void> delete(String? path) async {
+    await firestore.doc(path).delete();
+  }
 }
