@@ -1,8 +1,16 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:note/data/models/userModel.dart';
 
 class SignInRep {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  Stream<User?> user() async* {
+    firebaseAuth.authStateChanges().map((firebaseUser) {
+      final user = firebaseUser == null ? null : firebaseUser;
+      return user;
+    }); 
+  }
 
   Future<UserModel?> signInWithEmail(
       {required String email,
@@ -21,7 +29,10 @@ class SignInRep {
       {required String email, required String password}) async {
     final UserCredential userCredential = await firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password);
-    final UserModel? user = UserModel(id: userCredential.user?.uid,userName: userCredential.user?.displayName,email: email);
+    final UserModel? user = UserModel(
+        id: userCredential.user?.uid,
+        userName: userCredential.user?.displayName,
+        email: email);
     return user;
   }
 

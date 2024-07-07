@@ -60,6 +60,8 @@ class LoginPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 25.0, right: 25),
                     child: TextField(
+                      textInputAction: TextInputAction.next,
+                      keyboardType: TextInputType.emailAddress,
                       controller: emailController,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.mail),
@@ -73,6 +75,7 @@ class LoginPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 25.0, right: 25),
                     child: TextField(
+                      obscureText: true,
                       controller: passController,
                       decoration: InputDecoration(
                           prefixIcon: Icon(Icons.lock),

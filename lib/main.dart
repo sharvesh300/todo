@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note/buisness_logic/auth/auth_cubit.dart';
+import 'package:note/data/models/userModel.dart';
 import 'package:note/data/repository/signIn/signRep.dart';
 import 'package:note/presentation/authentication/signIn.dart';
 import 'package:note/presentation/home/homePage.dart';
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-       primaryColor: Colors.deepPurple,
+        primaryColor: Colors.deepPurple,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -41,8 +42,11 @@ class MyApp extends StatelessWidget {
           stream: rep.firebaseAuth.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
+              print(snapshot.data);
+              
               return SignInPage();
             } else {
+              
               return Homepage();
             }
           },

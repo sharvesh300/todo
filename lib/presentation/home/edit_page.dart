@@ -19,19 +19,26 @@ class EditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
- 
     return PopScope(
       onPopInvoked: (demo) {
         print(headController.text);
+        print(contentController.text);
         if (path == null) {
-          BlocProvider.of<NoteBloc>(context).add(AddNote(NoteModel(
-              id: id,
-              title: headController.text,
-              content: contentController.text)));
-        } else {
-          
-          
-          BlocProvider.of<NoteBloc>(context).add(EditNote(NoteModel(id: id,content: contentController.text,title: headController.text), path!));
+          if (headController.text != '' || contentController.text != '') {
+            print("Nothing you have entered");
+
+            BlocProvider.of<NoteBloc>(context).add(AddNote(NoteModel(
+                id: id,
+                title: headController.text,
+                content: contentController.text)));
+          }
+        } else if(headController.text != model?.title || contentController.text != model?.content) {
+          BlocProvider.of<NoteBloc>(context).add(EditNote(
+              NoteModel(
+                  id: id,
+                  content: contentController.text,
+                  title: headController.text),
+              path!));
         }
       },
       child: BlocConsumer<NoteBloc, NoteState>(listener: (context, state) {
@@ -70,17 +77,7 @@ class EditPage extends StatelessWidget {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  if (state != NoteLoading) {
-                    if (path == null) {
-                      BlocProvider.of<NoteBloc>(context).add(AddNote(NoteModel(
-                          id: id,
-                          title: headController.text,
-                          content: contentController.text)));
-                    } else {
-                      BlocProvider.of<NoteBloc>(context)
-                          .add(EditNote(model!, path!));
-                    }
-                  }
+                  Navigator.of(context).pop();
                 },
               ),
               backgroundColor: Colors.deepPurple,

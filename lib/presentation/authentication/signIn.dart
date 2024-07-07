@@ -41,6 +41,7 @@ class SignInPage extends StatelessWidget {
                 );
               });
         } else if (state is AuthSuccess) {
+          print(state.user);
           Navigator.of(context);
         }
       },
@@ -63,6 +64,7 @@ class SignInPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0, right: 25),
             child: TextField(
+              textInputAction: TextInputAction.next,
               controller: nameController,
               decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.person),
@@ -76,6 +78,8 @@ class SignInPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0, right: 25),
             child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              textInputAction: TextInputAction.next,
               controller: emailController,
               decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.mail),
@@ -89,6 +93,7 @@ class SignInPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0, right: 25),
             child: TextField(
+              obscureText: true,
               controller: passController,
               decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.lock),
@@ -128,7 +133,7 @@ class SignInPage extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => BlocProvider(
                               create: (context) => AuthCubit(),
-                              child:  LoginPage(),
+                              child: LoginPage(),
                             )));
               },
               child: const Text("Already have an account? Login"))

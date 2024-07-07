@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:note/data/models/userModel.dart';
 import 'package:note/data/repository/notes/noteRep.dart';
 import 'package:note/data/repository/signIn/signRep.dart';
 
 class ProfilePage extends StatelessWidget {
-  ProfilePage({super.key});
+  final UserModel model;
+  ProfilePage({super.key,required this.model});
 
   User? user = FirebaseAuth.instance.currentUser;
   final rep = SignInRep();
@@ -35,7 +37,7 @@ class ProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 25),
                   ),
                   Text(
-                    user!.displayName!,
+                    model.userName!,
                     style: TextStyle(fontSize: 25),
                   )
                 ],
@@ -51,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                     style: TextStyle(fontSize: 25),
                   ),
                   Text(
-                    user!.email!,
+                    model.email!,
                     style: TextStyle(fontSize: 25),
                   )
                 ],

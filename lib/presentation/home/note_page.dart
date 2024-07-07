@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note/buisness_logic/auth/auth_cubit.dart';
 import 'package:note/buisness_logic/note_bloc/bloc/note_bloc.dart';
 import 'package:note/data/models/noteModel.dart';
 import 'package:note/presentation/home/edit_page.dart';
@@ -14,6 +15,8 @@ class NotePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final stateA = BlocProvider.of<AuthCubit>(context).state;
+    print(stateA);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -39,7 +42,8 @@ class NotePage extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 );
               }
-              if (snapshot.hasData) {
+              if (snapshot.data?.docs.length != 0) {
+                print(snapshot.data?.docs.length);
                 return GridView(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
@@ -63,12 +67,9 @@ class NotePage extends StatelessWidget {
                       .toList(),
                 );
               }
-              if (snapshot.hasData == false) {
-                return Center(
-                  child: Text("No note available"),
-                );
-              }
-              return Text("hi");
+              print(snapshot.data?.docs.length);
+              print(snapshot.hasData);
+              return Center(child: Text("Add a note",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600,color: const Color.fromARGB(255, 174, 174, 174)),));
             }),
       ),
     );
