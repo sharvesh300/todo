@@ -96,7 +96,9 @@ class LoginPage extends StatelessWidget {
                     height: 10,
                   ),
                   ElevatedButton(
-                      onPressed: () async {},
+                      onPressed: () async {
+                        BlocProvider.of<AuthCubit>(context).googleSignIn();
+                      },
                       child: Text("Login In With Google")),
                   SizedBox(
                     height: 5,

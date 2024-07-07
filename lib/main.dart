@@ -43,10 +43,9 @@ class MyApp extends StatelessWidget {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               print(snapshot.data);
-              
+
               return SignInPage();
             } else {
-              
               return Homepage();
             }
           },

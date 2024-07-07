@@ -27,7 +27,22 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
       UserModel? userModel = await rep.loginWithEmail(
-          email: email, password: password,);
+        email: email,
+        password: password,
+      );
+      emit(AuthSuccess(user: userModel));
+    } on FirebaseAuthException catch (e) {
+      emit(AuthError(message: e.message));
+    }
+  }
+
+  Future<void> googleSignIn() async {
+    try {
+      emit(AuthLoading());
+      await rep.googleSignIn();
+      final user = FirebaseAuth.instance.currentUser;
+      UserModel userModel = UserModel(
+          id: user!.uid, userName: user.displayName, email: user.email);
       emit(AuthSuccess(user: userModel));
     } on FirebaseAuthException catch (e) {
       emit(AuthError(message: e.message));

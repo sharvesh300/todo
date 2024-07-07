@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:note/data/models/userModel.dart';
 
 class SignInRep {
@@ -9,7 +10,7 @@ class SignInRep {
     firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser == null ? null : firebaseUser;
       return user;
-    }); 
+    });
   }
 
   Future<UserModel?> signInWithEmail(
@@ -34,6 +35,15 @@ class SignInRep {
         userName: userCredential.user?.displayName,
         email: email);
     return user;
+  }
+
+  Future<void> googleSignIn() async {
+    final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication? gAuth = await gUser!.authentication;
+    final credential = GoogleAuthProvider.credential(
+        idToken: gAuth!.idToken, accessToken: gAuth.accessToken);
+    await firebaseAuth.signInWithCredential(credential);
+  
   }
 
   Future<void> logout() async {

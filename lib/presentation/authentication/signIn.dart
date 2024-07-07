@@ -122,7 +122,10 @@ class SignInPage extends StatelessWidget {
             height: 10,
           ),
           ElevatedButton(
-              onPressed: () {}, child: const Text("Sign In With Google")),
+              onPressed: () {
+                BlocProvider.of<AuthCubit>(context).googleSignIn();
+              },
+              child: const Text("Sign In With Google")),
           const SizedBox(
             height: 5,
           ),
